@@ -1,6 +1,7 @@
 import * as React from 'react'
 
-export const Main = (): JSX.Element => (
+export default function Styleguid(): JSX.Element {
+return(
   <main className="container"> 
       <section id="preview">
         <h2>Preview</h2>
@@ -11,7 +12,7 @@ export const Main = (): JSX.Element => (
           <fieldset>
             <label for="terms">
               <input type="checkbox" role="switch" id="terms" name="terms" />
-              I agree to the <a href="#" onclick="event.preventDefault()">Privacy Policy</a>
+              I agree to the <a href="#">Privacy Policy</a>
             </label>
           </fieldset>
           <button type="submit">Subscribe</button>
@@ -42,7 +43,7 @@ export const Main = (): JSX.Element => (
           <table>
             <tbody>
               <tr>
-                <td><a href="#" onclick="event.preventDefault()">Link</a></td>
+                <td><a href="#">Link</a></td>
                 <td><strong>Bold</strong></td>
                 <td><em>Italic</em></td>
               </tr>
@@ -186,8 +187,8 @@ export const Main = (): JSX.Element => (
           </fieldset>
 
           
-          <input type="reset" value="Reset" onclick="event.preventDefault()" />
-          <input type="submit" value="Submit" onclick="event.preventDefault()" />
+          <input type="reset" value="Reset" />
+          <input type="submit" value="Submit" />
 
         </form>
       </section>
@@ -283,3 +284,4 @@ export const Main = (): JSX.Element => (
 
     </main>
 );
+}
