@@ -4,9 +4,10 @@ import './index.css'
 import './fonts.css'
 
 // Pages
-import SignIn from './pages/Signin'
+import SignIn from './pages/SignIn'
 import Styleguide from './pages/Styleguide'
-import Calendar from './pages/Calendar'
+import Welcome from './pages/Welcome'
+import Calendar from './pages/view-calendar/Calendar'
 import { Header, Footer } from './components/'
 
 function App() {
@@ -19,10 +20,11 @@ function App() {
 
  return ( 
 <React.Fragment>
-<Header selectTheme={handleThemeSelection} />
 <BrowserRouter>
+<Header selectTheme={handleThemeSelection} />
   <Routes>
     <Route path="styleguide" element={<Styleguide />} />
+    <Route path="/welcome" element={<Welcome />} />
     <Route path="/" element={<SignIn />} />
     <Route path="/view-calendar" element={<Calendar />} />
   </Routes>
