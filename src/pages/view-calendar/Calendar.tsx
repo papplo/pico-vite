@@ -1,13 +1,12 @@
-import { daysInMonth, gregorianCalendarMonths, monthStartsOnDayOfWeek, weekDays, createCalendarDayItem } from './shared/constants';
+import { daysInMonth, gregorianCalendarMonths, monthStartsOnDayOfWeek, weekDays, createCalendarDayItem, CalendarDateItem } from './shared/constants';
 import { scheduleSlots } from './shared/mocks';
 import './shared/calendar.styles.css';
-import { useState } from 'react';
 
 interface CalendarProps {
     monthOfYear?: number // 0-index based as in js Date
 }
 
-export default function Calendar({ monthOfYear }: CalendarProps) {
+export default function Calendar({ monthOfYear = 1 }: CalendarProps) {
     function DaySelectionItem({ name, id, description }) {
         return (
             <>
@@ -30,7 +29,7 @@ export default function Calendar({ monthOfYear }: CalendarProps) {
     }
 
     const 
-        now = new Date(),
+        now = new Date( 2022, monthOfYear),
         month = now.getMonth(),
         year = now.getFullYear(),
         day = now.getDate(),
@@ -39,19 +38,20 @@ export default function Calendar({ monthOfYear }: CalendarProps) {
 
  
     const calendarDays = () => {
-        let result: any[] = []
+        let result: CalendarDateItem[] = []
 
         let previousMonth = [...Array(monthStartDay)]
-        previousMonth.map((day, index) => result.push(daysInMonth(month -1, year) - index))
-        result.sort((a,b) => a-b)
+        previousMonth.map((day, index) => {
+            const calculateDateWithIndex = daysInMonth(month -1, year) - index
+            result.push(createCalendarDayItem(month-1, year, calculateDateWithIndex))
+        })
+        result.sort((a,b) => a.dateFigure - b.dateFigure)
         
         let currentMonth = [...Array(daysInCurrentMonth).keys()]
-        currentMonth.map((day, index) => result.push(index))
-
-        console.log(result.length % 7)
+        currentMonth.map((day, index) => result.push(createCalendarDayItem(month, year, index)))
 
         let upcomingMonth = [...Array( 7 - result.length % 7)]
-        upcomingMonth.map((day, index) => result.push(createCalendarDayItem(year, month +1, index +1).dateFigure))
+        upcomingMonth.map((day, index) => result.push(createCalendarDayItem(month +1, year, index +1)))
 
 
         return result
@@ -77,13 +77,12 @@ export default function Calendar({ monthOfYear }: CalendarProps) {
                 </header>
 
                 <div className='grid grid_date'>
-                    {calendarDays().map((item) => {
-
-                        console.log(item +1)
+                    {calendarDays().map(({date, dateFigure, isToday, label, isPast}) => {
+                   
                         return(
-                        <div key={item}>
-                            <span role='button' className='secondary'>
-                                {item +1}
+                        <div key={date.toDateString()} data-tooltip={date.toLocaleDateString()}>
+                            <span role='button' className={isToday ? 'primary' : isPast ? 'outline' : 'secondary'}>
+                                {dateFigure}
                             </span>
                         </div>
                     )}
